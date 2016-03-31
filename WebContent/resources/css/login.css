@@ -1,0 +1,30 @@
+.block_login{
+	margin-top: 50px;
+}
+
+.login-title{
+	color: #323232;
+	letter-spacing: 3px;
+	font-size: 40px;
+	font-family: 'Fjalla One', sans-serif;
+}
+
+.profile-img{
+	display: block;
+	margin: 10px auto 30px;
+	width: 200px;
+	color: red;
+}
+
+.new-account{
+	margin-top: 10px;
+	display: block;
+	text-align: left;
+}
+
+.error_found{
+	color: red;
+	margin-top: 5px;
+	font-family: 'Fjalla One', sans-serif;
+	letter-spacing: 1px;
+}
