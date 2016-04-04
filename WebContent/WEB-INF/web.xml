@@ -3,6 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
 	
+	
+	<!-- Dispatcher for the JSON Implementation -->
 	<servlet>
 		<servlet-name>JSON-dispatcher</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -18,6 +20,7 @@
 		<url-pattern>/api</url-pattern>
 	</servlet-mapping>
 	
+	<!-- Dispatcher for the jsp views -->
 	<servlet>
 		<servlet-name>MVC-dispatcher</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

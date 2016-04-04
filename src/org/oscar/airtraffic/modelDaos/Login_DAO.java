@@ -20,7 +20,7 @@ public class Login_DAO extends Abstact_AirTrafficDaos_MiddleWare{
 	}
 	
 	public Object searchUser(User user){
-		System.out.println("Name: "+user.getName());
+		System.out.println("Name: "+user.getName()+" Password: "+ user.getPassword());
 		String sql = "SELECT * FROM user WHERE name = ? AND password = ?";		
 		try {
 			return this.access.queryForObject(sql, new UserMapper(),user.getName(), user.getPassword());

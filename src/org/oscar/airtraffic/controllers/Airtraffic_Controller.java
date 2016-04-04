@@ -8,7 +8,8 @@ import java.util.Map;
 
 import org.oscar.airtraffic.model.*;
 import org.oscar.airtraffic.modelDaos.*;
-import  org.oscar.airtraffic.modelAirTrafficData.*;
+import org.oscar.airtraffic.modelAirTrafficData.*;
+import org.oscar.airtraffic.session.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.*;
@@ -34,9 +35,18 @@ public class Airtraffic_Controller{
 		this.loginDao = dao;
 	}
 	
+	/*Sessions*/
+	@Autowired
+	public SessionBean session;
+	
 	@RequestMapping("/")
 	public ModelAndView showLogin(){
 		return new ModelAndView("login");
+	}
+	
+	@RequestMapping("/welcome")
+	public ModelAndView forcedWelcome(){
+		return new ModelAndView("welcome");
 	}	
 	
 	@RequestMapping(value="/login", method = RequestMethod.POST)
@@ -45,18 +55,34 @@ public class Airtraffic_Controller{
 		User resultUser = (User)loginDao.searchUser(userPost);
 		if(resultUser != null)
 		{
+			session.message();
 			return new ModelAndView("welcome");
 		}else{
 			return new ModelAndView("login", "userNotFound", "User doesn't exist");
 		}
 	}
 	
+	//To Retrieve different forms for the Airport functionality
+	@RequestMapping(value = "/showAirportForm/{parameter}", method=GET)
+	public ModelAndView showAirportForms(@PathVariable String parameter){
+		return new ModelAndView("AirportForms", "parameter", parameter);
+	}
 	
-	//Implementing API Functionality
-	//Air
+	@RequestMapping(value="/views/renderAiport/{parameter}", method=GET)
+	public String renderAirport(@PathVariable String parameter, 
+			@RequestParam(value="airportCode", required=true, defaultValue="") String airportCode){
+		return airportCode;
+	}
+
+	
+	/**********************************************/
+	/************ API Functionality ***************/
+	/**********************************************/
 	
 	//Object allAirports = rest.getForObject(ROOT_ADDRESS+"/airports", Airport.class, map);
 	
+	
+	//Airports
 	@RequestMapping(value = "api/airports", method = GET)
     public Object getAllAirports(){
 		try{
@@ -66,9 +92,9 @@ public class Airtraffic_Controller{
 			List<Airport> airportList = response.getBody();
 			return airportList;
 		}catch(Exception e){
-			return new ModelAndView("exception", "exception", e);
+			return new CustomException("Exception "+e);
 		}
-    }
+	}
 	
 	@RequestMapping(value = "api/airports/{airport}", method = GET)
     public Object getAirportInfo(@PathVariable String airport){
@@ -77,7 +103,7 @@ public class Airtraffic_Controller{
 					getForObject(ROOT_ADDRESS+"/airports/"+airport, Airport.class);
 			return airportInfo;
 		}catch(Exception e){
-			return new ModelAndView("exception", "message", e);
+			return new CustomException("Exception "+e);
 		}
     }
 	
@@ -90,7 +116,7 @@ public class Airtraffic_Controller{
 			List<Flight> departureList = response.getBody();
 			return departureList;
 		}catch(Exception e){
-			return new ModelAndView("exception", "exception", e);
+			return new CustomException("Exception "+e);
 		}
     }
 	
@@ -103,7 +129,7 @@ public class Airtraffic_Controller{
 			List<Flight> arrivalsList = response.getBody();
 			return arrivalsList;
 		}catch(Exception e){
-			return new ModelAndView("exception", "exception", e);
+			return new CustomException("Exception "+e);
 		}
     }
 	
@@ -129,7 +155,7 @@ public class Airtraffic_Controller{
 			List<Airline> airlineList = response.getBody();
 			return airlineList;
 		}catch(Exception e){
-			return new ModelAndView("exception", "exception", e);
+			return new CustomException("Exception "+e);
 		}
     }
 	
@@ -140,7 +166,7 @@ public class Airtraffic_Controller{
 			Object airlineInfo = rest.getForObject(ROOT_ADDRESS+"/airlines/"+airline, Airline.class);
 			return airlineInfo;
 		}catch(Exception e){
-			return new ModelAndView("exception", "exception", e);
+			return new CustomException("Exception "+e);
 		}
     }
 
@@ -154,18 +180,19 @@ public class Airtraffic_Controller{
 			List<Flight> airline_FlightList = response.getBody();
 			return airline_FlightList;
 		}catch(Exception e){
-			return new ModelAndView("exception", "exception", e);
+			return new CustomException("Exception "+e);
 		}
     }
 	
 	@RequestMapping(value = "api/airlines/add", method = POST)
-    public Object addAirport(@RequestBody Airline airline){
+    public Object addAirline(@RequestBody Airline airline){
 		try{
+			System.out.println("Llega: "+airline);
 			Boolean result = rest.postForObject(ROOT_ADDRESS+"/airlines/add", airline, Boolean.class);
 			System.out.println("Result: "+result);
 			return result;
 		}catch(Exception e){
-			return new ModelAndView("exception", "message", e);
+			return new CustomException("Exception "+e);
 		}
 	}
 	
@@ -179,7 +206,7 @@ public class Airtraffic_Controller{
 			List<Airplane> airplaneList = response.getBody();
 			return airplaneList;
 		}catch(Exception e){
-			return new ModelAndView("exception", "exception", e);
+			return new CustomException("Exception "+e);
 		}
     }
 	
@@ -189,7 +216,7 @@ public class Airtraffic_Controller{
 			Object airplaneInfo = rest.getForObject(ROOT_ADDRESS+"/airplanes/"+airplane, Airplane.class);
 			return airplaneInfo;
 		}catch(Exception e){
-			return new ModelAndView("exception", "exception", e);
+			return new CustomException("Exception "+e);
 		}
     }
 	
@@ -199,7 +226,7 @@ public class Airtraffic_Controller{
 			Boolean result = rest.postForObject(ROOT_ADDRESS+"/airplanes/add", airplane, Boolean.class);
 			return result;
 		}catch(Exception e){
-			return new ModelAndView("exception", "message", e);
+			return new CustomException("Exception "+e);
 		}
 	}
 	
@@ -213,7 +240,7 @@ public class Airtraffic_Controller{
 			List<Flight> flightList = response.getBody();
 			return flightList;
 		}catch(Exception e){
-			return new ModelAndView("exception", "exception", e);
+			return new CustomException("Exception "+e);
 		}
     }
 
@@ -226,7 +253,7 @@ public class Airtraffic_Controller{
 			List<Flight> flightList = response.getBody();
 			return flightList;
 		}catch(Exception e){
-			return new ModelAndView("exception", "exception", e);
+			return new CustomException("Exception "+e);
 		}
     }
 	
@@ -236,7 +263,7 @@ public class Airtraffic_Controller{
 			Object flightInfo = rest.getForObject(ROOT_ADDRESS+"/flights/"+flightNumber, Flight.class);
 			return flightInfo;
 		}catch(Exception e){
-			return new ModelAndView("exception", "exception", e);
+			return new CustomException("Exception "+e);
 		}
     }
 	
@@ -246,7 +273,7 @@ public class Airtraffic_Controller{
 			Boolean result = rest.postForObject(ROOT_ADDRESS+"/flights/add", flight, Boolean.class);
 			return result;
 		}catch(Exception e){
-			return new ModelAndView("exception", "message", e);
+			return new CustomException("Exception "+e);
 		}
 	}
 }
