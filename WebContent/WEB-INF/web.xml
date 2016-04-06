@@ -10,14 +10,14 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/airTraffic_JSON.xml</param-value>
+			<param-value>/WEB-INF/api.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	
 	<servlet-mapping>
 		<servlet-name>JSON-dispatcher</servlet-name>
-		<url-pattern>/api</url-pattern>
+		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
 	
 	<!-- Dispatcher for the jsp views -->
@@ -26,7 +26,7 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/airTraffic_MVC.xml</param-value>
+			<param-value>/WEB-INF/page.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>

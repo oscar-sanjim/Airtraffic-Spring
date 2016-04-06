@@ -3,6 +3,9 @@ package org.oscar.airtraffic.modelAirTrafficData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.StringTokenizer;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -15,8 +18,9 @@ public class Flight {
     private String plane;
     private String origin;
     private String destination;
-    private Date departure;
-    private Date arrival;
+    
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) private Date departure;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) private Date arrival;
 
     public Flight() {
         this.flightNumber = 0;

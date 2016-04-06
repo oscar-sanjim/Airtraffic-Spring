@@ -25,20 +25,21 @@
 			<div class="col-lg-4">
 				<c:choose>
 					<c:when test="${parameter=='Information'}">
-						<form role="form" action="<c:url value ="/views/renderAiport/Information"/>">
+						<form role="form" action="<c:url value ="/views/renderFlight/Information"/>">
+							<div class="form-group">
+							<label for="flightNumber">Flight Number:</label> 
+							<input type="text"	class="form-control" id="flightNumber" name="value" required>
+					</div>
 					</c:when>
-					<c:when test="${parameter=='Departures'}">
-						<form role="form" action="<c:url value ="/views/renderAiport/Departures"/>">
-					</c:when>
-					<c:when test="${parameter=='Arrivals'}">
-						<form role="form" action="<c:url value ="/views/renderAiport/Arrivals"/>">
+					<c:when test="${parameter=='Status'}">
+						<form role="form" action="<c:url value ="/views/renderFlight/Status"/>">
+							<div class="form-group">
+							<label for="status">Status:</label> 
+							<input type="text"	class="form-control" id="status" name="value" required>
 					</c:when>
 				</c:choose>
 				
-					<div class="form-group">
-						<label for="email">Airport code:</label> 
-						<input type="text"	class="form-control" id="airportCode" name="airportCode" required>
-					</div>
+					
 					<input type="submit" value="Search" class="btn btn-default">
 				</form>
 				
