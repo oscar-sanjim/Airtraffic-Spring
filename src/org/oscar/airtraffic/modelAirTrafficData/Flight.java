@@ -19,8 +19,10 @@ public class Flight {
     private String origin;
     private String destination;
     
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) private Date departure;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) private Date arrival;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private Date departure;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") 
+    private Date arrival;
 
     public Flight() {
         this.flightNumber = 0;
@@ -102,7 +104,7 @@ public class Flight {
     }
 
     public Date getArrival() {
-        return this.departure;
+        return this.arrival;
     }
 
 

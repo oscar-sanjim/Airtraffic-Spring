@@ -23,12 +23,17 @@
 						<label for="flightNumber">Flight Number:</label> 
 						<input type="number" class="form-control" id="flightNumber" name="flightNumber" required/>
 					</div>
-					
+
 					<div class="form-group">
-						<label for="status">Status:</label> 
-						<input type="text"	class="form-control" id="status" name="status" required/>
+						<label for="status">Status:</label> <select
+							class="form-control" id="status" name="status">
+							<option value="ON TIME">ON TIME</option>
+							<option value="DELAYED">DELAYED</option>
+							<option value="ARRIVED">ARRIVED</option>
+							<option value="FLYING">FLYING</option>
+						</select>
 					</div>
-					
+
 					<div class="form-group">
 						<label for="plane">Plane:</label> 
 						<input type="text"	class="form-control" id="plane" name="plane" required/>
@@ -46,12 +51,12 @@
 					
 					<div class="form-group">
 						<label for="departure">Departure:</label> 
-						<input type="date"	class="form-control" id="departure" name="departure" required/>
+						<input type="datetime-local"  class="form-control" id="departure" name="departure" required/>
 					</div>
 					
 					<div class="form-group">
 						<label for="arrival">Departure:</label> 
-						<input type="date"	class="form-control" id="arrival" name="arrival" required/>
+						<input type="datetime-local"  class="form-control" id="arrival" name="arrival" required/>
 					</div>
 					
 					<input type="submit" class="btn btn-default" value="Submit"/>

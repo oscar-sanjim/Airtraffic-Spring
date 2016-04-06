@@ -25,22 +25,31 @@
 			<div class="col-lg-4">
 				<c:choose>
 					<c:when test="${parameter=='Information'}">
-						<form role="form" action="<c:url value ="/views/renderFlight/Information"/>">
+						<form role="form"
+							action="<c:url value ="/views/renderFlight/Information"/>">
 							<div class="form-group">
-							<label for="flightNumber">Flight Number:</label> 
-							<input type="text"	class="form-control" id="flightNumber" name="value" required>
-					</div>
+								<label for="flightNumber">Flight Number:</label> <input
+									type="text" class="form-control" id="flightNumber" name="value"
+									required>
+							</div>
 					</c:when>
 					<c:when test="${parameter=='Status'}">
-						<form role="form" action="<c:url value ="/views/renderFlight/Status"/>">
+						<form role="form"
+							action="<c:url value ="/views/renderFlight/Status"/>">
 							<div class="form-group">
-							<label for="status">Status:</label> 
-							<input type="text"	class="form-control" id="status" name="value" required>
+								<label for="status">Status:</label> <select class="form-control"
+									id="status" name="value">
+									<option value="ON TIME">ON TIME</option>
+									<option value="DELAYED">DELAYED</option>
+									<option value="ARRIVED">ARRIVED</option>
+									<option value="FLYING">FLYING</option>
+								</select>
+							</div>
 					</c:when>
 				</c:choose>
-				
-					
-					<input type="submit" value="Search" class="btn btn-default">
+
+
+				<input type="submit" value="Search" class="btn btn-default">
 				</form>
 				
 			</div>

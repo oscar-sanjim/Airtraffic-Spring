@@ -30,8 +30,12 @@
 						</thead>
 						<c:forEach items="${airplanes}" var="airplane">
 							<tr>
-								<td>${airplane.plate}</td>
-								<td>${airplane.owner}</td>
+								<td>
+									<a href="<c:url value='/views/renderAirplane/Information?airplanePlate=${airplane.plate}'/>">${airplane.plate}</a>
+								</td>
+								<td>
+									<a href="<c:url value='/views/renderAirline/Information?airlineCode=${airplane.owner}'/>">${airplane.owner}</a>
+								</td>
 								<td>${airplane.model}</td>
 								<td>${airplane.hoursOnFlight}</td>
 							</tr>

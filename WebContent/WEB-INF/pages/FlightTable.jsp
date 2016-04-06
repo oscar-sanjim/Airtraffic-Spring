@@ -36,7 +36,9 @@
 							<tr>
 								<td>${flight.flightNumber}</td>
 								<td>${flight.status}</td>
-								<td>${flight.plane}</td>
+								<td>
+									<a href="<c:url value='/views/renderAirplane/Information?airplanePlate=${flight.plane}'/>">${flight.plane}</a>
+								</td>
 								<td>${flight.origin}</td>
 								<td>${flight.destination}</td>
 								<td>${flight.departure}</td>
