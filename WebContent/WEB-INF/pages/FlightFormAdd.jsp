@@ -8,6 +8,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <view_component:scripts />
+<script
+	src="<c:url value="/resources/scripts/flights.js"/>">
+</script>
 <title>Airports</title>
 </head>
 <body>
@@ -55,7 +58,7 @@
 					</div>
 					
 					<div class="form-group">
-						<label for="arrival">Departure:</label> 
+						<label for="arrival">Arrival:</label> 
 						<input type="datetime-local"  class="form-control" id="arrival" name="arrival" required/>
 					</div>
 					

@@ -10,7 +10,7 @@ import javax.sql.*;
 import java.util.*;
 
 @Repository
-public class Login_DAO extends Abstact_AirTrafficDaos_MiddleWare{
+public class Login_DAO{
 	
 	private JdbcTemplate access;
 	
@@ -27,6 +27,18 @@ public class Login_DAO extends Abstact_AirTrafficDaos_MiddleWare{
 		} catch (Exception e) {
 			System.out.println("Exception Caught: "+e);
 			return null;
-		}		
+		}
+	}
+
+		
+	protected static final class UserMapper implements RowMapper<User>{
+		@Override
+		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+			User user = new User();
+			user.setId(rs.getInt("id"));
+			user.setName(rs.getString("name"));
+			user.setPassword(rs.getString("password"));
+			return user;
+		}
 	}
 }

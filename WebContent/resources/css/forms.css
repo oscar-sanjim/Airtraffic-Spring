@@ -1,0 +1,10 @@
+@CHARSET "UTF-8";
+
+.col-lg-5 P{
+	margin-top: 20px;
+	font-size: 40px;
+	text-align: left;
+	font-family: 'Fjalla One', sans-serif;
+	letter-spacing: 2px;
+	color: #323232;
+}

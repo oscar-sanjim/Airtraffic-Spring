@@ -75,6 +75,9 @@
 							<li><a href="<c:url value="/showFlightForm/Add"/>">Add Flight</a></li>
 						</ul>
 					</li>
+					
+					<li><a href="<c:url value="/logout"/>">Logout</a></li>
+					<li><a href="<c:url value="/excel/logs"/>">Download</a></li>
 				</ul>
 			</div><!-- /.navbar-collapse -->
 		</div><!-- /.container-fluid --> 

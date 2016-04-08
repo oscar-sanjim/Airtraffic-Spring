@@ -2,9 +2,6 @@ package org.oscar.airtraffic.modelAirTrafficData;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-/**
- * Created by jacob on 22/03/2016.
- */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Airline {
     private String airlineCode;

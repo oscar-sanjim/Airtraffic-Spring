@@ -12,7 +12,22 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 	<mvc:default-servlet-handler/>
 	<mvc:annotation-driven />
-	
+
+	<mvc:interceptors>
+    	<bean class="org.oscar.airtraffic.controllers.PageInterceptor">
+    	</bean>
+    </mvc:interceptors>
+
+	<bean id="excelResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
+		<property name="order">
+			<value>1</value>
+		</property>
+		<property name="location">
+			<value>/WEB-INF/views.xml</value>
+		</property>
+	</bean>
+
+
 	<!-- View Resolver for the JSP's -->
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

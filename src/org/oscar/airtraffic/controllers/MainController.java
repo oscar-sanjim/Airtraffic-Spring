@@ -25,20 +25,24 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class MainController{
-
-	private Login_DAO loginDao;
-	private static final String ROOT_ADDRESS = "http://10.25.201.230:9080/AirTraffic";
-	private RestTemplate rest = new RestTemplate();
-
-	/* JDBC*/
-	@Autowired
-	public void setDao(Login_DAO dao){
-		this.loginDao = dao;
-	}
-
+	
 	/*Sessions*/
 	@Autowired
 	public SessionBean session;
+
+	private Login_DAO loginDao;
+	private LogsDao logsDao;
+	private static final String ROOT_ADDRESS = "http://10.25.201.230:9080/AirTraffic";
+	private RestTemplate rest = new RestTemplate();
+	
+	
+
+	/* JDBC*/
+	@Autowired
+	public void setDao(Login_DAO dao, LogsDao log){
+		this.loginDao = dao;
+		this.logsDao = log;
+	}
 
 	@RequestMapping("/")
 	public ModelAndView showLogin(){
@@ -50,22 +54,25 @@ public class MainController{
 		return new ModelAndView("welcome");
 	}	
 
-	@RequestMapping(value="/login", method = RequestMethod.POST)
+	@RequestMapping(path="/login", method = RequestMethod.POST)
 	public ModelAndView showWelcome(@ModelAttribute("userPost") User userPost){
 
 		User resultUser = (User)loginDao.searchUser(userPost);
 		if(resultUser != null)
-		{
-			if(session != null){
-				int userId = session.getId();
-				System.out.println("User id: "+ userId);
-			}else{
-				session.message();
-			}
+		{	
+			session.login();
+			
 			return new ModelAndView("welcome");
 		}else{
-			return new ModelAndView("login", "userNotFound", "User doesn't exist");
+			return new ModelAndView("loginFail");
 		}
+	}
+	
+	@RequestMapping(path="/logout", method = RequestMethod.GET)
+	public ModelAndView logout(){
+		session.logout();
+		System.out.println("Logged out");
+		return new ModelAndView("login");
 	}
 
 	//To Retrieve different forms for the Airtraffic functionality
@@ -291,6 +298,12 @@ public class MainController{
 		}
 	}
 
+	@RequestMapping(value = "/excel/logs", method = GET)
+	public ModelAndView downloadExcel(){
+		List<Log> resLogs = logsDao.getLogs();
+		return new ModelAndView("excelView", "logList", resLogs);
+	}
+	
 	//Airports	
 	public List<Airport> getAllAirports(){
 		ResponseEntity<List<Airport>> response = rest.exchange(ROOT_ADDRESS+"/airports", HttpMethod.GET, 

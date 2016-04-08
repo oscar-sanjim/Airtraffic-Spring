@@ -5,17 +5,26 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.util.List;
 
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
+
 import org.oscar.airtraffic.model.CustomException;
+import org.oscar.airtraffic.model.ObjectWrapper;
 import org.oscar.airtraffic.modelAirTrafficData.Airline;
 import org.oscar.airtraffic.modelAirTrafficData.Airplane;
 import org.oscar.airtraffic.modelAirTrafficData.Airport;
 import org.oscar.airtraffic.modelAirTrafficData.Flight;
+import org.oscar.airtraffic.modelDaos.ApiKeyDao;
+import org.oscar.airtraffic.modelDaos.Login_DAO;
+import org.oscar.airtraffic.modelDaos.LogsDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,7 +34,15 @@ import org.springframework.web.servlet.ModelAndView;
 public class ApiController {
 	
 	private static final String ROOT_ADDRESS = "http://10.25.201.230:9080/AirTraffic";
+	
 	private RestTemplate rest = new RestTemplate();
+	
+	private ApiKeyDao keyDao;
+	
+	@Autowired
+	public void setDao(ApiKeyDao keyDao){
+		this.keyDao = keyDao;
+	}
 	
 	/**********************************************/
 	/************ API Functionality ***************/
@@ -33,10 +50,15 @@ public class ApiController {
 	
 	//Object allAirports = rest.getForObject(ROOT_ADDRESS+"/airports", Airport.class, map);
 	
+	@ModelAttribute("log")
+	public void log(){
+		
+	}	
 	
 	//Airports
 	@RequestMapping(value = "airports", method = GET)
     public Object getAllAirports(){
+		
 		try{
 			ResponseEntity<List<Airport>> response = rest.exchange(ROOT_ADDRESS+"/airports", HttpMethod.GET, 
 					null, new ParameterizedTypeReference<List<Airport>>(){
@@ -87,13 +109,17 @@ public class ApiController {
     }
 	
 	@RequestMapping(value = "/airports/add", method = POST)
-    public Object addAirport(@RequestBody Airport airport){
+    public Object addAirport(@RequestBody ObjectWrapper objectWrapper){
 		try{
-			Boolean result = rest.postForObject(ROOT_ADDRESS+"/airports/add", airport, Boolean.class);
-			System.out.println("Result: "+result);
-			return result;
+			if(keyDao.searchApiKey(objectWrapper.getApikey())){
+				Boolean result = rest.postForObject(ROOT_ADDRESS+"/airports/add", objectWrapper.getData(), Boolean.class);
+				System.out.println("Result: "+result);
+				return result;
+			}else{
+				return new CustomException("Error: APIKEY Fail");
+			}
 		}catch(Exception e){
-			return new ModelAndView("exception", "message", e);
+			return new CustomException("Exception: "+e);
 		}
 	}
 	
@@ -137,13 +163,16 @@ public class ApiController {
 		}
     }
 	
-	@RequestMapping(value = "/airlines/add", method = POST)
-    public Object addAirline(@RequestBody Airline airline){
+	@RequestMapping(value = "/airlines/add", method = RequestMethod.POST)
+    public Object addAirline(@RequestBody ObjectWrapper objectWrapper){
 		try{
-			System.out.println("Llega: "+airline);
-			Boolean result = rest.postForObject(ROOT_ADDRESS+"/airlines/add", airline, Boolean.class);
-			System.out.println("Result: "+result);
-			return result;
+			if(keyDao.searchApiKey(objectWrapper.getApikey())){
+				Boolean result = rest.postForObject(ROOT_ADDRESS+"/airlines/add", objectWrapper.getData(), Boolean.class);
+				return result;
+			}else{
+				return new CustomException("Error: APIKEY Fail");
+			}
+			
 		}catch(Exception e){
 			return new CustomException("Exception "+e);
 		}
@@ -174,10 +203,14 @@ public class ApiController {
     }
 	
 	@RequestMapping(value = "/airplanes/add", method = POST)
-	public Object addAirplane(@RequestBody Airplane airplane){
+	public Object addAirplane(@RequestBody ObjectWrapper objectWrapper){
 		try{
-			Boolean result = rest.postForObject(ROOT_ADDRESS+"/airplanes/add", airplane, Boolean.class);
-			return result;
+			if(keyDao.searchApiKey(objectWrapper.getApikey())){
+				Boolean result = rest.postForObject(ROOT_ADDRESS+"/airplanes/add", objectWrapper.getData(), Boolean.class);
+				return result;
+			}else{
+				return new CustomException("Error: APIKEY Fail");
+			}
 		}catch(Exception e){
 			return new CustomException("Exception "+e);
 		}
@@ -221,10 +254,14 @@ public class ApiController {
     }
 	
 	@RequestMapping(value = "/flights/add", method = POST)
-	public Object addAirplane(@RequestBody Flight flight){
+	public Object addFlight(@RequestBody ObjectWrapper objectWrapper){
 		try{
-			Boolean result = rest.postForObject(ROOT_ADDRESS+"/flights/add", flight, Boolean.class);
-			return result;
+			if(keyDao.searchApiKey(objectWrapper.getApikey())){
+				Boolean result = rest.postForObject(ROOT_ADDRESS+"/flights/add", objectWrapper.getData(), Boolean.class);
+				return result;
+			}else{
+				return new CustomException("Error: APIKEY Fail");
+			}
 		}catch(Exception e){
 			return new CustomException("Exception "+e);
 		}

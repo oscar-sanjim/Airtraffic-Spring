@@ -1,5 +1,6 @@
 @CHARSET "UTF-8";
 .welcome_message{
+	top:10px;
 	font-size: 40px;
 	text-align: center;
 	font-family: 'Fjalla One', sans-serif;

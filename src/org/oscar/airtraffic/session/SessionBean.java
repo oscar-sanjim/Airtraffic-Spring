@@ -7,17 +7,33 @@ import org.springframework.context.annotation.*;
 @Scope(value="session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class SessionBean {
 
-	static int id;
+	private boolean logged;
+	private int id;
+	static int counter;	
 	
 	public SessionBean(){
-		++id;
+		++counter;
+		id = counter;
+		logged = false;
 	}
 	
 	public void message(){
-		System.out.println("Welcome, you are currently user #"+id);
+		System.out.println("Welcome, you are currently user #"+ id);
 	}
 	
 	public int getId(){
 		return id;
+	}
+	
+	public void login(){
+		logged = true;
+	}
+	
+	public void logout(){
+		logged = false;
+	}
+	
+	public boolean isLogged(){
+		return logged;
 	}
 }

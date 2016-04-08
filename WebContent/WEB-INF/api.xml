@@ -21,6 +21,11 @@ http://www.springframework.org/schema/mvc/spring-mvc.xsd">
         <mvc:jsp/>
     </mvc:view-resolvers>
     
+    <mvc:interceptors>
+    	<bean class="org.oscar.airtraffic.controllers.LogInterceptor">
+    	</bean>
+    </mvc:interceptors>
+    
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 		<property name="url" value="jdbc:mysql://localhost:3306/middleware_airtraffic"></property>
